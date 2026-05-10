@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+src/ascii_evolution/_init_.py
+src/ascii_evolution/main.py
+src/ascii_evolution.egg-info/PKG-INFO
+src/ascii_evolution.egg-info/SOURCES.txt
+src/ascii_evolution.egg-info/dependency_links.txt
+src/ascii_evolution.egg-info/top_level.txt
