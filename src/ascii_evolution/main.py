@@ -19,6 +19,21 @@ def calculate_fitness(candidate, target):
     return f
 
 
+def create_population(population_size, target_length):
+    return [generate_random_string(target_length) for _ in range(population_size)]
+
+
+def tournament_selection(population):  
+    random_candidates = random.sample(population, 5)
+    best_candidate = min(random_candidates, key=lambda c: calculate_fitness(c, target))
+    return best_candidate
+
+
+def crossover(parent1, parent2):
+    crossover_point = random.randint(1, len(parent1) - 1)
+    child = parent1[:crossover_point] + parent2[crossover_point:]
+    return child
+
 
 
 
@@ -46,12 +61,30 @@ def calculate_fitness(candidate, target):
 
 
 def main():
+    
     test_string = generate_random_string(len(target))
-
+    population = create_population(
+    population_size,
+    len(target)
+    )
+    best = tournament_selection(population)
     print(target)
     print(test_string)
     print(len(test_string) == len(target))
     print(calculate_fitness(test_string, target))
+
+
+    print("Population size:", len(population))
+    print("Best candidate:", best)
+    print("Fitness:", calculate_fitness(best, target))
+    
+    parent1 = population[0]
+    parent2 = population[1]
+    child = crossover(parent1, parent2)
+
+    print("\nParent 1:", parent1)
+    print("Parent 2:", parent2)
+    print("Child:   ", child)
 
 
 if __name__ == "__main__":
