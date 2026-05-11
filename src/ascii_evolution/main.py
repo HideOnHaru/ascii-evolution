@@ -4,8 +4,10 @@ import string
 
 target = "Evolutionary algorithms are fun!"
 population_size = 100
-mutation_rate = 0.15
+mutation_rate = 0.01
 generations = 1000
+
+pop = []
 
 def generate_random_string(length: int) -> str:
     letters = string.ascii_letters + string.punctuation + " "
@@ -24,7 +26,7 @@ def create_population(population_size, target_length):
 
 
 def tournament_selection(population) -> str:  
-    random_candidates = random.sample(population, 5)
+    random_candidates = random.sample(population, 20)
     best_candidate = min(random_candidates, key=lambda c: calculate_fitness(c, target))
     return best_candidate
 
@@ -45,9 +47,30 @@ def mutate_string(candidate) -> str:
     return new_candidate
 
 
+def evolve_population(population):
+    new_population = []
+    for _ in range(population_size):
+        parent1 = tournament_selection(population)
+        parent2 = tournament_selection(population)
+        child = crossover(parent1, parent2)
+        child = mutate_string(child)
+        new_population.append(child)
+    return new_population
 
 
 
+
+def run(): 
+    pop = create_population(population_size, len(target))
+    for _ in range(generations):
+       pop =evolve_population(pop)
+       best_candidate = min(pop, key=lambda c: calculate_fitness(c, target))
+       print(f"Best candidate: {best_candidate} with fitness: {calculate_fitness(best_candidate, target)}")
+       print(f"Current mutation rate: {mutation_rate}")
+       print (f"greneration: {_}")
+       if best_candidate == target:
+           print("Target string found!")
+           break    
 
 
 
@@ -68,40 +91,8 @@ def mutate_string(candidate) -> str:
 
 
 def main():
+    run()
     
-    test_string = generate_random_string(len(target))
-    population = create_population(
-    population_size,
-    len(target)
-    )
-    best = tournament_selection(population)
-    print(target)
-    print(test_string)
-    print(len(test_string) == len(target))
-    print(calculate_fitness(test_string, target))
-
-
-    print("Population size:", len(population))
-    print("Best candidate:", best)
-    print("Fitness:", calculate_fitness(best, target))
-    
-    parent1 = population[0]
-    parent2 = population[1]
-    child = crossover(parent1, parent2)
-
-    print("\nParent 1:", parent1)
-    print("Parent 2:", parent2)
-    print("Child:   ", child)
-
-
-
-
-    mutated = mutate_string(target)
-
-    print("Original:", target)
-    print("Mutated: ", mutated)
-    print("Length OK:", len(target) == len(mutated))
-    print("Changed:", target != mutated)
 
 if __name__ == "__main__":
     main()
