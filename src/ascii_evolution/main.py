@@ -57,6 +57,11 @@ def evolve_population(population):
         new_population.append(child)
     return new_population
 
+def adjust_mutation():
+    return 0;
+
+
+
 
 
 
